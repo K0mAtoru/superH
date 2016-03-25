@@ -1,6 +1,19 @@
 map' :: (a -> b) -> [a] -> [b]
 map' _ [] = []
-map' f (x:xs) = f x : map f xs
+map' f (x:xs) = f x : map' f xs
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+    | p x       = x : filter' p xs
+    | otherwise = filter' p xs
+
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+    let smallerOrEqual = filter' (<= x) xs
+        larger = filter' (> x) xs
+    in quicksort smallerOrEqual ++ [x] ++ quicksort larger
 
 main :: IO ()
 main = do
@@ -9,3 +22,12 @@ main = do
     print $ map' (replicate 3) [3..6]
     print $ map' (map (^2)) [[1,2],[3,4,5,6],[7,8]]
     print $ map' fst [(1,2),(3,5),(6,3),(2,6),(2,5)]
+    print $ filter' (>3) [1,5,3,2,1,6,4,3,2,1]
+    print $ filter' (==3) [1,2,3,4,5]
+    print $ filter' even [1..10]
+    let notNull x = not (null x)
+        in print $ filter' notNull [[1,2,3],[],[3,4,5],[2,2],[],[],[]]
+    print $ filter' (`elem` ['a'..'z']) "u LaUgH aT mE BeCaUsE I aM fiFfeRent"
+    print $ filter' (<15) (filter even [1..20])
+    print $ [x | x <- [1..20], x < 15, even x]
+    print $ quicksort [3,5,3,1,3,4,2,6,7,43,2,9]
