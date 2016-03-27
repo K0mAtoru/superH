@@ -15,6 +15,20 @@ quicksort (x:xs) =
         larger = filter' (> x) xs
     in quicksort smallerOrEqual ++ [x] ++ quicksort larger
 
+largestDivisible :: Integer
+largestDivisible = head (filter p [100000,99999..])
+    where
+        p x = x `mod` 3829 == 0
+
+chain :: Integer -> [Integer]
+chain 1 = [1]
+chain n
+    | even n = n : chain (n `div` 2)
+    | odd  n = n : chain (n * 3 + 1)
+
+numLongChains :: Int
+numLongChains  = length (filter (\xs -> length xs > 15) (map chain [1..100]))
+
 main :: IO ()
 main = do
     print $ map' (+3) [1,5,3,1,6]
@@ -31,3 +45,11 @@ main = do
     print $ filter' (<15) (filter even [1..20])
     print $ [x | x <- [1..20], x < 15, even x]
     print $ quicksort [3,5,3,1,3,4,2,6,7,43,2,9]
+    print $ largestDivisible
+    print $ takeWhile (/=' ') "elephants know how to party"
+    print $ sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+    print $ sum (takeWhile (<10000) [m | m <- [n^2 | n <- [1..]], odd m] )
+    print $ chain 30
+    print $ numLongChains
+    let listOfFuns = map (*) [0..]
+        in print $ (listOfFuns !! 4) 5 
