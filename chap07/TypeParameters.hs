@@ -1,0 +1,11 @@
+data Car a b c = Car { company :: a
+                     , model :: b
+                     , year :: c
+                     } deriving (Show)
+
+tellCar :: (Show a) => Car String String a -> String
+tellCar (Car {company = c, model = m, year = y}) = "This " ++ c ++ " " ++ m ++ " was made in " ++ show y
+
+main :: IO ()
+main = do
+    print $ tellCar (Car "Ford" "Mustang" 1967)
