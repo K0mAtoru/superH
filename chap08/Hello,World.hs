@@ -1,4 +1,5 @@
 import Data.Char
+import Control.Monad
 
 tellFortune :: String -> String
 tellFortune _ = "locky"
@@ -14,9 +15,25 @@ reversewords = do
             putStrLn $ reverseWords line  
             reversewords
 
+{-
+putStr :: String -> IO ()
+putStr [] = return ()
+putStr (x:xs) = do
+    putChar x
+    putStr xs
+-}
+
+{-
+loop = forever $ do
+    putStr "Give me some input: "
+    l <- getLine
+    putStrLn $ map toUpper l
+-}
+
 main = do
     putStrLn "Hello, what's your name?"  
     name <- getLine  
+    name = Haskell
     putStrLn ("Hey " ++ name ++ ", you rock!") 
     putStrLn "Hello, what's your name?"  
     name <- getLine  
@@ -45,3 +62,34 @@ main = do
         b = "yeah"  
     putStrLn $ a ++ " " ++ b
     -}
+    putStr "Hey, "
+    putStr "I'm "
+    putStr "Andy!"
+    putChar 't'
+    putChar 'e'
+    putChar 'h'
+    print True
+    print 2
+    print "haha"
+    print 3.2
+    print [3,4,3]
+    input <- getLine
+    if (input == "SWORDFISH")
+       then putStrLn input
+       else return ()
+    {-
+    a <- getLine
+    b <- getLine
+    c <- getLine
+    print [a,b,c]
+    -}
+    rs <- sequence [getLine, getLine, getLine]
+    print rs
+    sequence $ map print [1,2,3,4,5]
+    mapM_ print [1,2,3]
+    colors <- forM [1,2,3,4] $ \a -> do
+        putStrLn $ "Which color do you associate with the number " ++ show a ++ "?"
+        color <- getLine
+        return color
+    putStrLn "The colors that you associate with 1, 2, 3 and 4 are: "
+    mapM putStrLn colors
